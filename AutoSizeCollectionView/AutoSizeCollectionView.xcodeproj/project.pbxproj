@@ -13,6 +13,7 @@
 		DE3AF85D2B5D577300683B88 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE3AF85B2B5D577300683B88 /* Main.storyboard */; };
 		DE3AF85F2B5D577500683B88 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE3AF85E2B5D577500683B88 /* Assets.xcassets */; };
 		DE3AF8622B5D577500683B88 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE3AF8602B5D577500683B88 /* LaunchScreen.storyboard */; };
+		DEDF1D012B5D58F1006C46EA /* AutoSizeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEDF1D002B5D58F1006C46EA /* AutoSizeCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		DE3AF85E2B5D577500683B88 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DE3AF8612B5D577500683B88 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DE3AF8632B5D577500683B88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DEDF1D002B5D58F1006C46EA /* AutoSizeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSizeCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 		DE3AF86E2B5D57CD00683B88 /* CustomCells */ = {
 			isa = PBXGroup;
 			children = (
+				DEDF1D002B5D58F1006C46EA /* AutoSizeCollectionViewCell.swift */,
 			);
 			path = CustomCells;
 			sourceTree = "<group>";
@@ -186,6 +189,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEDF1D012B5D58F1006C46EA /* AutoSizeCollectionViewCell.swift in Sources */,
 				DE3AF85A2B5D577300683B88 /* ViewController.swift in Sources */,
 				DE3AF8562B5D577300683B88 /* AppDelegate.swift in Sources */,
 				DE3AF8582B5D577300683B88 /* SceneDelegate.swift in Sources */,

@@ -9,11 +9,112 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    // MARK: - PROPERTIES
+    lazy var autoSizeCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.contentInset = .zero
+        collectionView.register(AutoSizeCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
+        collectionView.backgroundColor = .red
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        return collectionView
+    }()
+    
+    private let dataSource: [String] = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis cursus magna ac nulla tincidunt accumsan. Sed urna nibh, fermentum sed nunc eget", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis cursus magna ac nulla tincidunt accumsan. Sed urna nibh, fermentum sed nunc eget", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis cursus magna ac nulla tincidunt accumsan. Sed urna nibh, fermentum sed nunc eget", "Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam accumsan magna vitae semper iaculis. Nam dapibus lacus et pretium volutpat. Aenean quis egestas erat. Mauris malesuada vel justo maximus consectetur.", "abc", "abcd", "t magnis dis parturient montes, nascetur ridiculus mus. Nam accumsan magna vitae semper iaculis. Nam dapibus lacus et pretium volutpat. Aenean quis egestas erat. Mauris malesuada vel justo maximus consectetur.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis cursus magna ac nulla tincidunt accumsan. Sed urna nibh, fermentum sed nunc eget"]
+    
+    var firstCellFrame: CGRect = .zero
+    var secondCellFrame: CGRect = .zero
+    
+    // MARK: - LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        setupUI()
     }
-
-
+    
+    // MARK: - CONFIG
+    private func setupUI() {
+        view.addSubview(autoSizeCollectionView)
+        NSLayoutConstraint.activate([
+            autoSizeCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            autoSizeCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
+            autoSizeCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            autoSizeCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
 }
 
+// MARK: - COLLECTIONVIEW DATA SOURCE
+extension ViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return dataSource.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! AutoSizeCollectionViewCell
+        cell.setupCell(text: dataSource[indexPath.row])
+        //        calculateCellFrame(index: indexPath.row, cell: cell)
+        determineCellFrame(index: indexPath.row, cell: cell)
+        return cell
+    }
+}
+
+// MARK: - COLLECTIONVIEW DELEGATE
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+    }
+}
+
+// MARK: - COLLETIONVIEW DELEGATE FLOW LAYOUT
+extension ViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let text = dataSource[indexPath.item]
+        let label = UILabel()
+        label.text = text
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.font = UIFont.systemFont(ofSize: 15)
+        let labelSize = label.sizeThatFits(CGSize(width: (collectionView.frame.width - 20) / 2, height: CGFloat.greatestFiniteMagnitude))
+        return CGSize(width: (collectionView.frame.width - 20) / 2, height: labelSize.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 15
+    }
+}
+
+extension ViewController {
+    private func determineCellFrame(index: Int, cell: UICollectionViewCell) {
+        switch index {
+        case 0:
+            cell.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height)
+            firstCellFrame = cell.frame
+        case 1:
+            cell.frame = CGRect(x: firstCellFrame.maxX + 20, y: 0, width: cell.frame.width, height: cell.frame.height)
+            secondCellFrame = cell.frame
+        default:
+            calculateCellPosition(firstFrame: firstCellFrame, secondFrame: secondCellFrame, cell: cell)
+        }
+    }
+    
+    private func calculateCellPosition(firstFrame: CGRect, secondFrame: CGRect, cell: UICollectionViewCell) {
+        if firstFrame.maxY + 15 < secondFrame.maxY + 15 {
+            cell.frame = CGRect(x: 0, y: firstFrame.maxY + 15, width: cell.frame.width, height: cell.frame.height)
+            firstCellFrame = cell.frame
+        } else {
+            cell.frame = CGRect(x: firstFrame.maxX + 20, y: secondFrame.maxY + 15, width: cell.frame.width, height: cell.frame.height)
+            secondCellFrame = cell.frame
+        }
+    }
+}
