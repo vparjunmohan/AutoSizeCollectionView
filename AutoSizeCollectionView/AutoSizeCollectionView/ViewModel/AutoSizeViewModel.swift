@@ -28,7 +28,7 @@ class AutoSizeViewModel {
             secondCellFrame = newValue
         }
     }
-    
+
     // MARK: - HELPERS
     /// Function to get the label height
     /// - Parameters:
@@ -41,10 +41,17 @@ class AutoSizeViewModel {
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.font = UIFont.systemFont(ofSize: 15)
-        let labelSize = label.sizeThatFits(CGSize(width: (collectionView.frame.width - 20) / 2, height: CGFloat.greatestFiniteMagnitude))
+        let labelSize = label.sizeThatFits(
+            CGSize(
+                width: (
+                    collectionView.frame.width - 20
+                ) / 2,
+                height: CGFloat.greatestFiniteMagnitude
+            )
+        )
         return labelSize
     }
-    
+
     /// Function to calculate the current cell's frame
     /// - Parameters:
     ///   - index: index of the cell in `Int`
@@ -61,7 +68,7 @@ class AutoSizeViewModel {
             calculateCellPosition(firstFrame: firstCellFrame, secondFrame: secondCellFrame, cell: cell)
         }
     }
-    
+
     /// Function to calculate the cell position
     /// - Parameters:
     ///   - firstFrame: frame of the first cell in `CGRect`
@@ -69,10 +76,20 @@ class AutoSizeViewModel {
     ///   - cell: instance of `UICollectionViewCell`
     private func calculateCellPosition(firstFrame: CGRect, secondFrame: CGRect, cell: UICollectionViewCell) {
         if firstFrame.maxY + 15 < secondFrame.maxY + 15 {
-            cell.frame = CGRect(x: 0, y: firstFrame.maxY + 15, width: cell.frame.width, height: cell.frame.height)
+            cell.frame = CGRect(
+                x: 0,
+                y: firstFrame.maxY + 15,
+                width: cell.frame.width,
+                height: cell.frame.height
+            )
             firstCellFrame = cell.frame
         } else {
-            cell.frame = CGRect(x: firstFrame.maxX + 20, y: secondFrame.maxY + 15, width: cell.frame.width, height: cell.frame.height)
+            cell.frame = CGRect(
+                x: firstFrame.maxX + 20,
+                y: secondFrame.maxY + 15,
+                width: cell.frame.width,
+                height: cell.frame.height
+            )
             secondCellFrame = cell.frame
         }
     }
