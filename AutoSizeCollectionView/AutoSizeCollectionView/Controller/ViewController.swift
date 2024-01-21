@@ -25,10 +25,19 @@ class ViewController: UIViewController {
     
     private let dataSource: [String] = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis cursus magna ac nulla tincidunt accumsan. Sed urna nibh, fermentum sed nunc eget", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis cursus magna ac nulla tincidunt accumsan. Sed urna nibh, fermentum sed nunc eget", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis cursus magna ac nulla tincidunt accumsan. Sed urna nibh, fermentum sed nunc eget", "Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam accumsan magna vitae semper iaculis. Nam dapibus lacus et pretium volutpat. Aenean quis egestas erat. Mauris malesuada vel justo maximus consectetur.", "abc", "abcd", "t magnis dis parturient montes, nascetur ridiculus mus. Nam accumsan magna vitae semper iaculis. Nam dapibus lacus et pretium volutpat. Aenean quis egestas erat. Mauris malesuada vel justo maximus consectetur.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis cursus magna ac nulla tincidunt accumsan. Sed urna nibh, fermentum sed nunc eget"]
     
-    var firstCellFrame: CGRect = .zero
-    var secondCellFrame: CGRect = .zero
+    var viewmodel: AutoSizeViewModel
     
     // MARK: - LIFE CYCLE
+    init(viewmodel: AutoSizeViewModel) {
+        self.viewmodel = viewmodel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        self.viewmodel = AutoSizeViewModel()
+        super.init(coder: coder)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -59,8 +68,7 @@ extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! AutoSizeCollectionViewCell
         cell.setupCell(text: dataSource[indexPath.row])
-        //        calculateCellFrame(index: indexPath.row, cell: cell)
-        determineCellFrame(index: indexPath.row, cell: cell)
+        viewmodel.calculateCellFrame(index: indexPath.row, cell: cell)
         return cell
     }
 }
@@ -68,20 +76,13 @@ extension ViewController: UICollectionViewDataSource {
 // MARK: - COLLECTIONVIEW DELEGATE
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
     }
 }
 
 // MARK: - COLLETIONVIEW DELEGATE FLOW LAYOUT
 extension ViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let text = dataSource[indexPath.item]
-        let label = UILabel()
-        label.text = text
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        label.font = UIFont.systemFont(ofSize: 15)
-        let labelSize = label.sizeThatFits(CGSize(width: (collectionView.frame.width - 20) / 2, height: CGFloat.greatestFiniteMagnitude))
+        let labelSize = viewmodel.getLabelHeight(text: dataSource[indexPath.item], collectionView: collectionView)
         return CGSize(width: (collectionView.frame.width - 20) / 2, height: labelSize.height)
     }
     
@@ -91,30 +92,5 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 15
-    }
-}
-
-extension ViewController {
-    private func determineCellFrame(index: Int, cell: UICollectionViewCell) {
-        switch index {
-        case 0:
-            cell.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height)
-            firstCellFrame = cell.frame
-        case 1:
-            cell.frame = CGRect(x: firstCellFrame.maxX + 20, y: 0, width: cell.frame.width, height: cell.frame.height)
-            secondCellFrame = cell.frame
-        default:
-            calculateCellPosition(firstFrame: firstCellFrame, secondFrame: secondCellFrame, cell: cell)
-        }
-    }
-    
-    private func calculateCellPosition(firstFrame: CGRect, secondFrame: CGRect, cell: UICollectionViewCell) {
-        if firstFrame.maxY + 15 < secondFrame.maxY + 15 {
-            cell.frame = CGRect(x: 0, y: firstFrame.maxY + 15, width: cell.frame.width, height: cell.frame.height)
-            firstCellFrame = cell.frame
-        } else {
-            cell.frame = CGRect(x: firstFrame.maxX + 20, y: secondFrame.maxY + 15, width: cell.frame.width, height: cell.frame.height)
-            secondCellFrame = cell.frame
-        }
     }
 }

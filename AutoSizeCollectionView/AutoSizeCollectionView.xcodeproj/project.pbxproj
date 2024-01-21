@@ -14,6 +14,7 @@
 		DE3AF85F2B5D577500683B88 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE3AF85E2B5D577500683B88 /* Assets.xcassets */; };
 		DE3AF8622B5D577500683B88 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE3AF8602B5D577500683B88 /* LaunchScreen.storyboard */; };
 		DEDF1D012B5D58F1006C46EA /* AutoSizeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEDF1D002B5D58F1006C46EA /* AutoSizeCollectionViewCell.swift */; };
+		DEDF1D042B5D60F1006C46EA /* AutoSizeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEDF1D032B5D60F1006C46EA /* AutoSizeViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		DE3AF8612B5D577500683B88 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DE3AF8632B5D577500683B88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DEDF1D002B5D58F1006C46EA /* AutoSizeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSizeCollectionViewCell.swift; sourceTree = "<group>"; };
+		DEDF1D032B5D60F1006C46EA /* AutoSizeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSizeViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				DE3AF86C2B5D579200683B88 /* AppConfig */,
 				DE3AF86A2B5D578200683B88 /* Controller */,
 				DE3AF8692B5D577C00683B88 /* View */,
+				DEDF1D022B5D60C4006C46EA /* ViewModel */,
 				DE3AF86B2B5D578900683B88 /* Resources */,
 				DE3AF8632B5D577500683B88 /* Info.plist */,
 			);
@@ -116,6 +119,14 @@
 				DEDF1D002B5D58F1006C46EA /* AutoSizeCollectionViewCell.swift */,
 			);
 			path = CustomCells;
+			sourceTree = "<group>";
+		};
+		DEDF1D022B5D60C4006C46EA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				DEDF1D032B5D60F1006C46EA /* AutoSizeViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,6 +202,7 @@
 			files = (
 				DEDF1D012B5D58F1006C46EA /* AutoSizeCollectionViewCell.swift in Sources */,
 				DE3AF85A2B5D577300683B88 /* ViewController.swift in Sources */,
+				DEDF1D042B5D60F1006C46EA /* AutoSizeViewModel.swift in Sources */,
 				DE3AF8562B5D577300683B88 /* AppDelegate.swift in Sources */,
 				DE3AF8582B5D577300683B88 /* SceneDelegate.swift in Sources */,
 			);
